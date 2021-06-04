@@ -106,7 +106,7 @@ If you want to test it locally, configure the appropiate vaiables pointing to th
 
 ```shell
 export KAFKA_BOOTSTRAP_URLS=localhost:9092 \
-STREAM_URL=http://localhost:8081/dashboard/stream \
+STREAM_URL=http://localhost:8081/dashboard/stream 
 ```
 
 ```shell
