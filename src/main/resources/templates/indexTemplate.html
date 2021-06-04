@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Automated blood analysis</title>
+    <link rel="shortcut icon" href="favicon/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Base Styles -->
+    <link href="css/styles.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/custom.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Cookie%7cMontserrat:300,400,500,600,700%7cRoboto:300,400,500,700" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
+    <!-- Customized css -->
+    <link href="css/analysis.css" rel="stylesheet" />
+    <link href="css/toastr.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand active" href="#banner"></i> Blood Analysis</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#new">New</a></li>
+                <li><a href="#statusboard">Status</a></li> 
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<span id="banner"></span>
+<section class="banner">
+    <div class="jumbotron">
+        <div class="container">
+            <div class="content">
+                <h1>Automated Blood Analysis</h1>
+                <a href="#new" class="btn">Order an Analysis</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<span class="anchor" id="about"></span>
+
+<span class="anchor" id="new"></span>
+<section class="menu">
+    <div class="container padding-2x">
+        <div class="row text-wrap">
+            <div class="col-sm-12">
+                <h3 class="text-center">Patient Info</h3>
+                <hr>
+                <p class="text-center">Include the sample identification (ie. full name of the patient) and then add items to be analyzed</p>
+                
+                <button  type="button" class="nav-justified" data-toggle="modal" data-target="#patientModal"><h5>Introduce patient name or ID</h5></button>
+                
+
+            </div>
+        </div>
+        <div class="modal" id="myModal">
+            <div class="modal-dialog" display="flex">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title" >
+                            Current Order
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-header">
+                        <div class="pt-10">
+                            <ul class="list-group mt-10" id="current_order">
+                            </ul>
+                        </div>
+                    </div>
+                        <div class="alert alert-success" role="alert"id="item_added_alert" >
+                        </div>
+                   
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <form class="form-inline" action="" id="item_form">
+                            <div class="flex-fill d-inline-flex justify-content-between">
+                                <input type="hidden" id="item_type" name="item_type"/>
+                                <input type="hidden" id="item_price" name="item_price"/>
+                                <label for="item" class="mr-sm-2 input-analysis text-nowrap mb-2" id="item_label"></label>
+                                <input type="hidden" id="item" name="item"/>
+                                <button type="submit" class="btn-sm btn-primary mb-2">Add</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <form class="form-inline flex-fill" action="" id="order_form">
+                            <div class="flex-fill">
+                                <button type="button" class="btn-sm btn-danger" data-dismiss="modal">Back to list</button>
+                                <button type="submit" class="btn-sm btn-primary pull-right" id="order_form_sent">Send to analize</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="modal" id="patientModal">
+            <div class="modal-dialog">
+                <form id="patient_modal">
+        
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">
+                            Introduce patient name or ID
+                        </h4>
+                        <button id="btn_cancel" type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body flex-fill d-inline-flex">
+                        <div class="flex-fill d-inline-flex justify-content-end form-group">
+                            <label for="patient_id" class="mr-sm-2 input-analysis text-nowrap mb-2">Patient name or ID:</label>
+                            <input type="text" required class="form-control mb-2 mr-sm-2" placeholder="Enter name or ID" id="patient_id" patient_id="patient_id">
+                        </div>
+                    </div>
+        
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <div class="flex-fill">
+                            <button type="submit" id="patient_entered" class="btn-sm btn-primary pull-right">Set Patient</button>
+                        </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+        
+
+
+
+
+
+
+
+        <div class="row menu-lists" id="indicator_form">
+            <div class="col-sm-12">
+                <ul class="nav nav-tabs nav-justified">
+
+                    <li class="active"><a data-target="#espresso" data-toggle="tab">PATIENT: <text id="patient_display_id"></text> </a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="espresso">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                                <div class="analysis-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>COVID-19</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="COVID" data-item_type="virus" data-display_name="COVID-19">Add</button>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Coronavirus quick test</p>
+                                    </div>
+                                </div>
+                                <div class="analysis-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Sodium</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="SODIUM" data-item_type="regular"  data-display_name="Sodium">Add</button>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Reference: 135 - 146 mmol/L</p>
+                                    </div>
+                                </div>
+                                <div class="analysis-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Potassium</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="POTASSIUM" data-item_type="regular"   data-display_name="Potassium">Add</button>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Reference: 3.5 - 5.2 mmol/L </p>
+                                    </div>
+                                </div>
+                                <div class="analysis-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Cholesterol</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="CHOLESTEROL" data-item_type="regular"   data-display_name="Cholesterol">Add</button>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Reference: less than 5.2 mmol/L</p>
+                                    </div>
+                                </div>
+                                <div class="analysis-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Vitamin b12</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="VITAMINB12" data-item_type="regular"   data-display_name="Vitamin b12">Add</button>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Reference: Greater than 200 pmol/L</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                <div class="analysis-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Hemoglobin</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="HEMOGLOBIN" data-item_type="regular"  data-display_name="Hemoglobin">Add</button>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Reference: 145 - 180 g/L</p>
+                                    </div>
+                                </div>
+                                <div class="analysis-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>AIDS</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="AIDS" data-item_type="virus"  data-display_name="AIDS">Add</button>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>AIDS test</p>
+                                    </div>
+                                </div>
+                                <div class="analysis-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Platelet count</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="PLATELET" data-item_type="regular" data-display_name="Platelet count">Add</button>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Reference: 150 - 400 x10 9 /L</p>
+                                    </div>
+                                </div>
+                                <div class="analysis-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Triglycerides</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="TRIGLYCERIDES" data-item_type="regular"  data-display_name="Triglycerides">Add</button>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Reference: less than 1.71 mmol/L</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<span class="anchor" id="statusboard"></span>
+<section class="statusboard">
+    <div class="container padding-2x">
+        <div class="row text-wrap">
+            <div class="col-sm-12">
+                <h3 class="text-center">Status</h3>
+                <hr/>
+                <p class="text-center">Check here for analysis status</p>
+            </div>
+            <div class="row justify-content-center">
+                <table class="table table-lg table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th style="width:30%">Patient</th>
+                        <th style="width:30%">Item</th>
+                        <th style="width:20%">Status</th>
+                        <th style="width:20%">Analyzed By</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<div class=".d-none"></div>
+<appvalues id="appvalues"
+           data-stream-url="{streamUrl}"
+           data-loyaltystream-url
+/>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.matchHeight.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script src="js/custom.js"></script>
+<script src="js/analysis.js"></script>
+<script src="js/wow.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js"></script>
+<script src="js/toastr.js"></script>
+<script>
+    new WOW().init();
+</script>
+<script>
+    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox();
+    });
+</script>
+
+
+</body>
+</html>
